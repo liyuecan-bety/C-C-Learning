@@ -9,13 +9,36 @@ void Adress_pointComputer(int arr[],int size);
 void doublePointer();
 void ArrayPointer();
 void print_f(int (*pf)[3], int x, int y);
+void func1();
+void func2();
+void func3();
+//void ConstPointer();
+void Swap(int *x, int *y);
+
+
 /* 主函数 */
 int main(){
+	//传址调用（指针传递）
+    int a = 10;
+	int b = 5;
+	printf("交换前a = %d,b = %d\n", a, b);
+	Swap(&a, &b);
+	printf("交换后a = %d,b = %d\n", a, b);
+	return 0;
+    /*
+    //函数指针+指针数组
+     void (*funcArray[3])() = {func1, func2, func3};
     
+    for(int i = 0; i < 3; i++) 
+    {
+        funcArray[i]();  // 调用数组中的函数
+    }
+    */
+    /*
     //数组指针
     int arr[2][3] = { 1,2,3,4,5,6};
 	print_f(arr,2,3);
-	return 0;
+    */
 }
 
 /* 函数定义 */
@@ -69,10 +92,9 @@ void Adress_pointComputer(int arr[],int size){
     int *ptr = arr;
     printf("Adress of arr: %p\n", (void*)arr);
     printf("Adress of ptr: %p\n", (void*)ptr);
-    printf("Adress of arr+1: %p\n", (void*)(arr + 1));
-    printf("Adress of ptr+1: %p\n", (void*)(ptr + 1));
-    printf("Adress of arr+2: %p\n", (void*)(arr + 2));
-    printf("Adress of ptr+2: %p\n", (void*)(ptr + 2));
+    for (int i = 0; i < size; i++) {
+        printf("Adress of arr+%d: %p, value: %d\n", i, (void*)(arr + i), *(arr + i));
+    }
 }
 
 //双重指针
@@ -92,7 +114,7 @@ void doublePointer(){
 }
 
 //数组指针
-//数组指针是数组的指针，指向整个数组，而不是数组的第一个元素。它的类型是指向数组的指针类型。
+//数组指针是指向数组的指针，指向整个数组，而不是数组的第一个元素。它的类型是指向数组的指针类型。
 void ArrayPointer(){
     int arr[5] = {1, 2, 3, 4, 5};
     int (*ptr)[5] = &arr;
@@ -104,20 +126,39 @@ void ArrayPointer(){
     printf("Value of (*ptr)[1]: %d\n", (*ptr)[1]);
 }
 
-//利用数组指针二维数组打印
+//利用数组指针打印二维数组
 void print_f(int (*pf)[3], int x, int y){
 	int i, j;
-	for (i = 0; i < 2; i++)
+	for (i = 0; i < x; i++)
 	{
-		for (j = 0; j < 3; j++)
+		for (j = 0; j < y; j++)
 		{
             /* pf是指向arr[0][]这一整行（3个int类型，12个字节）,pf+1是指向arr[1][]这一行（12个字节）
              （*pf）是指向arr[0][0]第一行第一列的元素，即指向arr数组的首元素，*（pf+1）是arr[1][0],即第二行的第一列的元素，即第二行的首元素
               (*（pf+1）+j))指向第二行的第j个元素，*（*（pf+1）+j）解引用第二行第j列的元素地址
-              */
+            */
 			printf("%d ", *(*(pf + i) + j));
 		}
 		printf("\n");
 	}
 }
 
+//指针数组是存放指针的数组
+//函数指针数组
+void func1() { printf("Function 1\n"); }
+void func2() { printf("Function 2\n"); }
+void func3() { printf("Function 3\n"); }
+/*
+//const修饰指针
+void ConstPointer(){
+    const int *p1; //（*p1）不能修改，但是p2指向的内容可以修改
+    int *const p2; //（*p2）可以修改，但是p2指向的内容不能修改
+}
+*/
+//传址调用（指针传递）
+void Swap(int *x, int *y)
+{
+	int tem = *x;
+	*x = *y;
+	*y = tem;
+}
