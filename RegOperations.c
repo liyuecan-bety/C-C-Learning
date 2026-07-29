@@ -20,12 +20,8 @@ int main(){
     set_bit(&status_reg,0);
     clear_bit(&status_reg,1);
     toggle_bit(&status_reg,2);
-    uint32_t* bit = (uint32_t*)malloc(32*sizeof(uint32_t));
-    if(NULL == bit){
-        printf("内存分配失败\n");
-        return -1;
-    }
-    bit = read_bit(status_reg);
+    uint32_t* bit = read_bit(status_reg);
+    if(bit == NULL) return -1;
     for(int i = 0;i < 32;i++){
         printf("%d",bit[i]);
     }
@@ -60,9 +56,10 @@ uint32_t* read_bit(uint32_t reg){
     return bit;
 }
 void print_bit(uint32_t reg){
-    uint32_t *bit = (uint32_t*)malloc(32*sizeof(uint32_t));
-    for(int i = 0;i < 32;i++){
-        bit[i] = (reg >> i) & 1;
-        printf("%d",bit[31-i]);
+
+    for(int i = 31;i >= 0;i--){
+        printf("%d",(reg >> i) & 1);
     }
+    printf("\n");
+
 }
