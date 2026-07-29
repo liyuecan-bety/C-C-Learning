@@ -36,12 +36,15 @@ int main(){
 
 /*函数定义区*/
 void set_bit(uint32_t* reg,int pos){
+    if (pos < 0 || pos > 31) return;  // 防御性编程
     *reg = (*reg)|(1<<pos);
 }
 void clear_bit(uint32_t* reg,int pos){
+    if (pos < 0 || pos > 31) return;  // 防御性编程
     *reg = (*reg)&(~(1<<pos));
 }
 void toggle_bit(uint32_t* reg,int pos){
+    if (pos < 0 || pos > 31) return;  // 防御性编程
     *reg = (*reg)^(1<<pos);
 }
 uint32_t* read_bit(uint32_t reg){
