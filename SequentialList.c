@@ -53,7 +53,48 @@ Status IsEmpty(SqList* L){
         return FALSE;
 }
 //取线性表中第i个值
-Status GetElem()
+Status GetElem(int i,const SqList* L,Book e){
+    if(i < 1||i >= L->Length)
+        return ERROR;
+    else{
+        e = L->elem[i-1];
+        return OK;
+    }
+}
+//线性表按值顺序查找
+Status LocatElem(const SqList* L,Book e){
+    for(int i = 0;i <= L->Length-1;i++){
+        if(L->elem[i].Num == e.Num)//只能比较结构体的标识符，不能比较结构体
+            return i+1;
+    }
+    return 0;
+}
+//顺序表插入
+Status InsertList_Sq(SqList* L, int n, const Book e){
+    if(n >= 1 && n <= L->Length + 1){
+        if(L->Length == MAXSIZE)
+                return ERROR;
+        for(int i = L->Length-1;i >= n-1;i--){
+            L->elem[i+1] = L->elem[i];
+        }
+        L->elem[n-1] = e;
+        L->Length += 1;
+        return OK;
+    }
+    return ERROR;
+}
+//顺序表删除指定元素
+Status DeleteElem(SqList* L,int n){
+    if(n >= 1 && n < L->Length){
+        L->elem[n-1].Num = 0;
+        for(int i = n-1;i <= L->Length-1;i++){
+            L->elem[i].Num = L->elem[i+1].Num;
+        }
+        L->Length --;
+        return OK;
+    }
+    return ERROR;
+}
 //主函数
 int main(){
 
