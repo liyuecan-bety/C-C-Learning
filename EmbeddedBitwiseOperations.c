@@ -43,4 +43,11 @@ int* Bitwise(int* a,int* b){
     arr[1] = (*a||*b)?1:0;
     arr[2] = *a&*b;
     arr[3] = (*a&&*b)?1:0;
+    arr[4] = ~(*a);          // 按位取反
+    arr[5] = ~(*b);
+    arr[6] = *a ^ *b;        // 异或
+    arr[7] = (*a) << 1;      // 左移
+    arr[8] = (*b) >> 1;      // 右移
+    arr[9] = !(*a);          // 逻辑非
     return arr;//返回的是int*指针
+}
