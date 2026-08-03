@@ -12,11 +12,11 @@
 typedef int Status;
 
 //顺序表定义
+#define MAXSIZE 100
 typedef struct {
     int Num;
     char Name[50];
 }Book;
-#define MAXSIZE 100
 typedef struct{
     Book* elem;
     int Length;
@@ -95,8 +95,62 @@ Status DeleteElem(SqList* L,int n){
     }
     return ERROR;
 }
+//显示顺序表
+void ShowList_Sq(const SqList*L){
+    if(L->Length == 0 )
+        printf("The List is empty");
+    else{
+        int i = 0;
+        for(i = 0;i < L->Length;i++)
+            printf("%d ",L->elem[i].Num);
+        printf("\n");
+        printf("The length of list is %d\n",L->Length);
+    }
+}
+//合并两个顺序表，将L2合并到L1
+Status MergeList_Sq(SqList* L1, const SqList* L2){
+    if(L1->Length == 0 || L2->Length == 0){
+        printf("the List is empty");
+        return ERROR;
+    }
+    else if(L1->Length + L2->Length > MAXSIZE){
+        printf("Overflow");
+        return OVERFLOW;
+    }
+    else{
+        for(int i = 0;i <= L2->Length - 1;i++){
+            L1->elem[i+L1->Length] = L2->elem[i];
+        }
+        L1->Length += L2->Length;
+        return OK;
+    }
+
+}
 //主函数
 int main(){
+    SqList MyList1;
+    Book b1;
+    Book b2;
+    Book b3;
+    Book b4;
+    b1.Num = 1;
+    b1.Name[2] = 'a';
+    b2.Num = 2;
+    b2.Name[2] = 'b';
+    b3.Num = 3;
+    b3.Name[2] = 'c';
+    b4.Num = 4;
+    b4.Name[2] = 'd';
+    SqList MyList2;
+    InitList_Sq(&MyList1);
+    InitList_Sq(&MyList2);
+    InsertList_Sq(&MyList1,1,b1);
+    InsertList_Sq(&MyList1,2,b2);
+    InsertList_Sq(&MyList1,3,b3);
+    InsertList_Sq(&MyList1,4,b4);
+    ShowList_Sq(&MyList1);
+    int Num = LocatElem(&MyList1,b1);
+    printf("%d",Num);
 
 
     return 0;
