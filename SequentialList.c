@@ -10,7 +10,6 @@
 #define OVERFLOW -2
 //Status 是函数的类型，其值是函数结果状态代码
 typedef int Status;
-
 //顺序表定义
 #define MAXSIZE 100
 typedef struct {
@@ -21,7 +20,6 @@ typedef struct{
     Book* elem;
     int Length;
 }SqList;
-
 /*顺序表操作*/
 //顺序表初始化
 Status InitList_Sq(SqList* L){
@@ -104,6 +102,9 @@ void ShowList_Sq(const SqList*L){
         for(i = 0;i < L->Length;i++)
             printf("%d ",L->elem[i].Num);
         printf("\n");
+        for(int j = 0;j < L->Length;j++)
+            printf("%c ",L->elem[j].Name[2]);
+        printf("\n");
         printf("The length of list is %d\n",L->Length);
     }
 }
@@ -142,16 +143,18 @@ int main(){
     b4.Num = 4;
     b4.Name[2] = 'd';
     SqList MyList2;
+    //初始化顺序表
     InitList_Sq(&MyList1);
     InitList_Sq(&MyList2);
+    //顺序表插入元素
     InsertList_Sq(&MyList1,1,b1);
     InsertList_Sq(&MyList1,2,b2);
     InsertList_Sq(&MyList1,3,b3);
     InsertList_Sq(&MyList1,4,b4);
+    //展示顺序表
     ShowList_Sq(&MyList1);
+    //查找顺序表
     int Num = LocatElem(&MyList1,b1);
     printf("%d",Num);
-
-
     return 0;
 }
