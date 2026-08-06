@@ -78,7 +78,7 @@ Status LocatElem(Linklist* L,int i,ElemType* e){
         j++;
         p = p->next;
     }
-    if(!p|| j > i)
+    if(!p || j > i)
         return ERROR;
     *e =  p->data;
     return OK;
@@ -106,7 +106,122 @@ int LacatElem_v_Index(const Linklist* L,ElemType value){
     else
         return j;
 }
-int main(){
+//单链表插入，在第i个结点之前插入一个结点
+Status InsertLinklist(Linklist* L,ElemType e,int i){
+    LNode* p;
+    p = (*L)->next;
+    int j = 1;
+    while(p && j < i-1){
+        j++;
+        p = p->next;
+    }
+    if(!p || j > i-1)
+        return ERROR;
+    LNode* n;
+    n = (LNode*)malloc(sizeof(LNode));
+    n->data = e;
+    n->next = p->next;
+    p->next = n;
+    return OK;
+}
+//单链表删除，删除第i个结点
+Status DeleteLinklist(Linklist* L,int i){
+    LNode*p,*q;
+    p = (*L)->next;
+    int j = 1;
+    while(p && j < i-1){
+        j++;
+        p = p->next;
+    }
+    if(!p || j > i-1)
+        return ERROR;
+    q = p->next;
+    p->next = q->next;
+    free(q);
+    return OK;
+}
+//单链表建立，头插法
+void CreateLinklist_Head(Linklist* L,int n){
+    int i = 0;
 
+    for(i = n;i > 0;i--){
+        LNode* p;
+        InitLinklist(&p);
+        printf("Please input %d the data of the new node p:\n",n-i+1);
+        scanf("%d",&p->data);
+        p->next = (*L)->next;
+        (*L)->next = p;
+    }
+}
+//单链表的建立，尾插法
+void CreateLinklist_Tail(Linklist*L,int n){
+    int i = 0;
+    LNode* r;
+    r = *L;
+    // 先找到最后一个结点
+    while (r->next != NULL) {
+        r = r->next;
+    }
+    for(i = 0;i < n;i++){
+        LNode* p;
+        InitLinklist(&p);
+        printf("Please input %d the data of the new node p:\n",i+1);
+        scanf("%d",&p->data);
+        r->next = p;
+        r = p;
+    }
+    r->next = NULL;
+}
+//显示单链表
+void ShowLinklist(Linklist* L){
+    LNode* p;
+    p = (*L)->next;
+    while(p != NULL){
+        printf("%d ",p->data);
+        p = p->next;
+    }
+    printf("\n");
+}
+int main(){
+    //初始化链表并头插法和尾插法
+    Linklist list;
+    InitLinklist(&list);
+    CreateLinklist_Head(&list,5);
+    ShowLinklist(&list);
+    CreateLinklist_Tail(&list,5);
+    ShowLinklist(&list);
+    //展示链表长度
+    int length = GetLength(&list);
+    printf("The length of the linked list is: %d\n", length);
+    //查找链表中第3个元素
+    ElemType e;
+    if(LocatElem(&list, 3, &e) == OK){
+        printf("The 3rd element is: %d\n", e);
+    } else {
+        printf("Element not found.\n");
+    }
+    //判断链表是否为空
+    if(IsEmpty(&list)){
+        printf("The linked list is empty.\n");
+    } else {
+        printf("The linked list is not empty.\n");
+    }
+    //按值查找
+    ElemType value = 5; // Example value to search for
+    LNode* result = LacatElem_V_LNode(&list, value);
+    if (result) {
+        printf("Element %d found in the linked list.\n", value);
+    } else {
+        printf("Element %d not found in the linked list.\n", value);
+    }
+    ElemType valueIndex = 5; // Example value to search for index
+    //在第三个位置插入一个元素
+    InsertLinklist(&list,valueIndex,3);
+    ShowLinklist(&list);
+    //删除链表中第三个元素
+    DeleteLinklist(&list,3);
+    ShowLinklist(&list);
+    //销毁链表
+    DestoryLinklist(&list);
     return 0;
 }
